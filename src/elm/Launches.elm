@@ -1,4 +1,4 @@
-module Races exposing (Race, RaceCategory, getTestServerResponseWithPageTask)
+module Launches exposing (Launch, Spacecraft, getTestServerResponseWithPageTask)
 
 import Http
 import Iso8601
@@ -12,14 +12,13 @@ import Time exposing (Month(..), now)
 -- TYPES
 
 
-type alias RaceCategory =
-    { seriesName : String
-    , season : String
-    , races : List Race
+type alias Spacecraft =
+    { name : String
+    , launches : List Launch
     }
 
 
-type alias Race =
+type alias Launch =
     { posix : Time.Posix
     , name : String
     }
@@ -29,17 +28,16 @@ type alias Race =
 -- DECODER
 
 
-raceCategoryDecoder : Decode.Decoder RaceCategory
+raceCategoryDecoder : Decode.Decoder Spacecraft
 raceCategoryDecoder =
-    Decode.map3 RaceCategory
-        (Decode.field "seriesName" Decode.string)
-        (Decode.field "season" Decode.string)
-        (Decode.field "races" (Decode.list raceDecoder))
+    Decode.map2 Spacecraft
+        (Decode.field "spacecraft" Decode.string)
+        (Decode.field "launches" (Decode.list raceDecoder))
 
 
-raceDecoder : Decode.Decoder Race
+raceDecoder : Decode.Decoder Launch
 raceDecoder =
-    Decode.succeed Race
+    Decode.succeed Launch
         |> required "date" Iso8601.decoder
         |> required "name" Decode.string
 
@@ -48,7 +46,7 @@ raceDecoder =
 -- API
 
 
-getTestServerResponseWithPageTask : String -> Task.Task Http.Error RaceCategory
+getTestServerResponseWithPageTask : String -> Task.Task Http.Error Spacecraft
 getTestServerResponseWithPageTask category =
     Http.task
         { method = "GET"

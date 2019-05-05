@@ -4703,9 +4703,6 @@ var author$project$Main$Model = F4(
 	function (userState, resultChunk, zone, time) {
 		return {resultChunk: resultChunk, time: time, userState: userState, zone: zone};
 	});
-var author$project$Main$GotServerResponse = function (a) {
-	return {$: 'GotServerResponse', a: a};
-};
 var elm$core$Basics$apL = F2(
 	function (f, x) {
 		return f(x);
@@ -5751,7 +5748,7 @@ var elm$http$Http$Sending = function (a) {
 var elm$http$Http$Timeout_ = {$: 'Timeout_'};
 var elm$http$Http$stringResolver = A2(_Http_expect, '', elm$core$Basics$identity);
 var elm$json$Json$Decode$decodeString = _Json_runOnString;
-var author$project$Races$jsonResolver = function (decoder) {
+var author$project$Launches$jsonResolver = function (decoder) {
 	return elm$http$Http$stringResolver(
 		function (response) {
 			switch (response.$) {
@@ -5784,9 +5781,9 @@ var author$project$Races$jsonResolver = function (decoder) {
 			}
 		});
 };
-var author$project$Races$RaceCategory = F3(
-	function (seriesName, season, races) {
-		return {races: races, season: season, seriesName: seriesName};
+var author$project$Launches$Spacecraft = F2(
+	function (name, launches) {
+		return {launches: launches, name: name};
 	});
 var elm$json$Json$Decode$map2 = _Json_map2;
 var NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = elm$json$Json$Decode$map2(elm$core$Basics$apR);
@@ -5798,7 +5795,7 @@ var NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
 			A2(elm$json$Json$Decode$field, key, valDecoder),
 			decoder);
 	});
-var author$project$Races$Race = F2(
+var author$project$Launches$Launch = F2(
 	function (posix, name) {
 		return {name: name, posix: posix};
 	});
@@ -6512,7 +6509,7 @@ var rtfeldman$elm_iso8601_date_strings$Iso8601$decoder = A2(
 		}
 	},
 	elm$json$Json$Decode$string);
-var author$project$Races$raceDecoder = A3(
+var author$project$Launches$raceDecoder = A3(
 	NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
 	'name',
 	elm$json$Json$Decode$string,
@@ -6520,18 +6517,16 @@ var author$project$Races$raceDecoder = A3(
 		NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
 		'date',
 		rtfeldman$elm_iso8601_date_strings$Iso8601$decoder,
-		elm$json$Json$Decode$succeed(author$project$Races$Race)));
+		elm$json$Json$Decode$succeed(author$project$Launches$Launch)));
 var elm$json$Json$Decode$list = _Json_decodeList;
-var elm$json$Json$Decode$map3 = _Json_map3;
-var author$project$Races$raceCategoryDecoder = A4(
-	elm$json$Json$Decode$map3,
-	author$project$Races$RaceCategory,
-	A2(elm$json$Json$Decode$field, 'seriesName', elm$json$Json$Decode$string),
-	A2(elm$json$Json$Decode$field, 'season', elm$json$Json$Decode$string),
+var author$project$Launches$raceCategoryDecoder = A3(
+	elm$json$Json$Decode$map2,
+	author$project$Launches$Spacecraft,
+	A2(elm$json$Json$Decode$field, 'spacecraft', elm$json$Json$Decode$string),
 	A2(
 		elm$json$Json$Decode$field,
-		'races',
-		elm$json$Json$Decode$list(author$project$Races$raceDecoder)));
+		'launches',
+		elm$json$Json$Decode$list(author$project$Launches$raceDecoder)));
 var elm$http$Http$emptyBody = _Http_emptyBody;
 var elm$core$Task$fail = _Scheduler_fail;
 var elm$core$Task$succeed = _Scheduler_succeed;
@@ -6551,16 +6546,19 @@ var elm$http$Http$task = function (r) {
 		elm$http$Http$resultToTask,
 		{allowCookiesFromOtherDomains: false, body: r.body, expect: r.resolver, headers: r.headers, method: r.method, timeout: r.timeout, tracker: elm$core$Maybe$Nothing, url: r.url});
 };
-var author$project$Races$getTestServerResponseWithPageTask = function (category) {
+var author$project$Launches$getTestServerResponseWithPageTask = function (category) {
 	return elm$http$Http$task(
 		{
 			body: elm$http$Http$emptyBody,
 			headers: _List_Nil,
 			method: 'GET',
-			resolver: author$project$Races$jsonResolver(author$project$Races$raceCategoryDecoder),
+			resolver: author$project$Launches$jsonResolver(author$project$Launches$raceCategoryDecoder),
 			timeout: elm$core$Maybe$Nothing,
 			url: 'https://sorabatake.github.io/SpaceBusinessData/schedules/' + category
 		});
+};
+var author$project$Main$GotServerResponse = function (a) {
+	return {$: 'GotServerResponse', a: a};
 };
 var elm$core$Basics$composeL = F3(
 	function (g, f, x) {
@@ -6658,7 +6656,7 @@ var elm$core$Task$attempt = F2(
 						task))));
 	});
 var author$project$Main$qqq = function () {
-	var getResultTask = author$project$Races$getTestServerResponseWithPageTask;
+	var getResultTask = author$project$Launches$getTestServerResponseWithPageTask;
 	return A2(
 		elm$core$Task$attempt,
 		author$project$Main$GotServerResponse,
@@ -8268,10 +8266,10 @@ var author$project$Main$view = function (model) {
 														_List_Nil,
 														_List_fromArray(
 															[
-																elm$html$Html$text(d.seriesName)
+																elm$html$Html$text(d.name)
 															])),
 														author$project$Main$tableHeader(sundays),
-														A4(author$project$Main$tableBody, d.seriesName, sundays, d.races, model.time)
+														A4(author$project$Main$tableBody, d.name, sundays, d.launches, model.time)
 													]));
 										},
 										model.resultChunk));
@@ -8280,7 +8278,7 @@ var author$project$Main$view = function (model) {
 					])),
 				author$project$View$siteFooter
 			]),
-		title: 'MotorSportsCalendar 2019'
+		title: 'SpaceLaunchCalendar 2019'
 	};
 };
 var elm$browser$Browser$External = function (a) {

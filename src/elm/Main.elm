@@ -6,7 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import Iso8601
-import Races exposing (Race, RaceCategory, getTestServerResponseWithPageTask)
+import Launches exposing (Launch, Spacecraft, getTestServerResponseWithPageTask)
 import Task
 import Time exposing (Month(..), now)
 import Time.Extra as Time exposing (Interval(..))
@@ -28,7 +28,7 @@ main =
 
 type alias Model =
     { userState : UserState
-    , resultChunk : List RaceCategory
+    , resultChunk : List Spacecraft
     , zone : Time.Zone
     , time : Time.Posix
     }
@@ -36,7 +36,7 @@ type alias Model =
 
 type UserState
     = Init
-    | Loaded (List Race)
+    | Loaded (List Launch)
     | Failed Http.Error
 
 
@@ -53,8 +53,8 @@ init _ =
 
 type Msg
     = Tick Time.Posix
-    | GotServerResponse (Result Http.Error (List RaceCategory))
-    | Recieve (Result Http.Error (List Race))
+    | GotServerResponse (Result Http.Error (List Spacecraft))
+    | Recieve (Result Http.Error (List Launch))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -105,7 +105,7 @@ subscriptions model =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "MotorSportsCalendar 2019"
+    { title = "SpaceLaunchCalendar 2019"
     , body =
         [ View.siteHeader
         , node "main"
@@ -129,9 +129,9 @@ view model =
                         |> List.map
                             (\d ->
                                 table [ class "heatmap" ]
-                                    [ caption [] [ text d.seriesName ]
+                                    [ caption [] [ text d.name ]
                                     , tableHeader sundays
-                                    , tableBody d.seriesName sundays d.races model.time
+                                    , tableBody d.name sundays d.launches model.time
                                     ]
                             )
                     )
@@ -199,12 +199,12 @@ tableHeader sundays =
 
 
 type Weekend
-    = Scheduled Race
+    = Scheduled Launch
     | Free
     | Past
 
 
-isRaceWeek : Time.Posix -> List Race -> Time.Posix -> Weekend
+isRaceWeek : Time.Posix -> List Launch -> Time.Posix -> Weekend
 isRaceWeek sundayPosix races currentPosix =
     let
         racesInThisWeek =
@@ -239,7 +239,7 @@ isRaceWeek sundayPosix races currentPosix =
         Free
 
 
-tableBody : String -> List Time.Posix -> List Race -> Time.Posix -> Html Msg
+tableBody : String -> List Time.Posix -> List Launch -> Time.Posix -> Html Msg
 tableBody seriesName sundays races currentPosix =
     tr []
         (sundays
