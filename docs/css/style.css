@@ -17,8 +17,7 @@ body {
   display: grid;
   grid-template-rows: auto auto auto;
   font-size: 1.6rem;
-  background: #8cccd9;
-  color: #FFF; }
+  color: #1f286f; }
   @media screen and (max-width: 479px) {
     body {
       grid-template-columns: 1.5rem 1fr 1.5rem; } }
@@ -53,12 +52,12 @@ header.site-header h1 {
       content: ": "; }
 
 main {
-  border-top: solid 0.1rem #d9eef2;
-  border-bottom: solid 0.1rem #d9eef2; }
+  border-top: solid 0.1rem #1f286f;
+  border-bottom: solid 0.1rem #1f286f; }
   main section {
     padding: 3rem 0 4rem; }
     main section + section {
-      border-top: solid 0.1rem #d9eef2; }
+      border-top: solid 0.1rem #1f286f; }
   main h1 {
     padding: 1rem 0;
     font-size: 2.4rem; }
@@ -80,7 +79,7 @@ main {
       padding: 1rem 1.5rem;
       font-size: 1.3rem;
       line-height: 1.6;
-      background: #265973;
+      background: #00a5c1;
       color: #FFF;
       border-radius: 1rem; }
       main ul:not(.heatmap) li a h3 {
@@ -114,13 +113,13 @@ main {
           grid-column: 2; } }
       main ul.heatmap li td {
         text-align: center;
-        background: #FFF;
+        background: #F3F3F3;
         border-radius: 0.2rem; }
         main ul.heatmap li td.past {
-          background: #c2e8f0; }
+          background: #DDD; }
         main ul.heatmap li td.raceweek {
           position: relative;
-          background: #2d6886; }
+          background: #00a5c1; }
           main ul.heatmap li td.raceweek label {
             display: block;
             height: 100%; }
