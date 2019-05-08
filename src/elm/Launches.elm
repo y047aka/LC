@@ -13,7 +13,7 @@ import Time exposing (Month(..), now)
 
 
 type alias Spacecraft =
-    { name : String
+    { seriesName : String
     , launches : List Launch
     }
 
@@ -31,7 +31,7 @@ type alias Launch =
 raceCategoryDecoder : Decode.Decoder Spacecraft
 raceCategoryDecoder =
     Decode.map2 Spacecraft
-        (Decode.field "spacecraft" Decode.string)
+        (Decode.field "seriesName" Decode.string)
         (Decode.field "launches" (Decode.list raceDecoder))
 
 

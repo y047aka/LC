@@ -129,9 +129,9 @@ view model =
                         |> List.map
                             (\d ->
                                 table [ class "heatmap" ]
-                                    [ caption [] [ text d.name ]
+                                    [ caption [] [ text d.seriesName ]
                                     , tableHeader sundays
-                                    , tableBody d.name sundays d.launches model.time
+                                    , tableBody sundays d.launches model.time
                                     ]
                             )
                     )
@@ -239,8 +239,8 @@ isRaceWeek sundayPosix races currentPosix =
         Free
 
 
-tableBody : String -> List Time.Posix -> List Launch -> Time.Posix -> Html Msg
-tableBody seriesName sundays races currentPosix =
+tableBody : List Time.Posix -> List Launch -> Time.Posix -> Html Msg
+tableBody sundays races currentPosix =
     tr []
         (sundays
             |> List.map

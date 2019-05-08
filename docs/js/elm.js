@@ -5782,8 +5782,8 @@ var author$project$Launches$jsonResolver = function (decoder) {
 		});
 };
 var author$project$Launches$Spacecraft = F2(
-	function (name, launches) {
-		return {launches: launches, name: name};
+	function (seriesName, launches) {
+		return {launches: launches, seriesName: seriesName};
 	});
 var elm$json$Json$Decode$map2 = _Json_map2;
 var NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = elm$json$Json$Decode$map2(elm$core$Basics$apR);
@@ -6522,7 +6522,7 @@ var elm$json$Json$Decode$list = _Json_decodeList;
 var author$project$Launches$raceCategoryDecoder = A3(
 	elm$json$Json$Decode$map2,
 	author$project$Launches$Spacecraft,
-	A2(elm$json$Json$Decode$field, 'spacecraft', elm$json$Json$Decode$string),
+	A2(elm$json$Json$Decode$field, 'seriesName', elm$json$Json$Decode$string),
 	A2(
 		elm$json$Json$Decode$field,
 		'launches',
@@ -7842,8 +7842,8 @@ var rtfeldman$elm_iso8601_date_strings$Iso8601$fromTime = function (time) {
 		3,
 		A2(elm$time$Time$toMillis, elm$time$Time$utc, time)) + 'Z'))))))))))));
 };
-var author$project$Main$tableBody = F4(
-	function (seriesName, sundays, races, currentPosix) {
+var author$project$Main$tableBody = F3(
+	function (sundays, races, currentPosix) {
 		return A2(
 			elm$html$Html$tr,
 			_List_Nil,
@@ -8266,10 +8266,10 @@ var author$project$Main$view = function (model) {
 														_List_Nil,
 														_List_fromArray(
 															[
-																elm$html$Html$text(d.name)
+																elm$html$Html$text(d.seriesName)
 															])),
 														author$project$Main$tableHeader(sundays),
-														A4(author$project$Main$tableBody, d.name, sundays, d.launches, model.time)
+														A3(author$project$Main$tableBody, sundays, d.launches, model.time)
 													]));
 										},
 										model.resultChunk));
