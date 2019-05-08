@@ -83,8 +83,8 @@ qqq =
             getTestServerResponseWithPageTask
     in
     Task.attempt GotServerResponse <|
-        ([ "IST/IST_2019.json"
-         , "SpaceX/Falcon9_2019.json"
+        ([ "IST/MOMO.json"
+         , "SpaceX/Falcon9.json"
          ]
             |> List.map getResultTask
             |> Task.sequence
