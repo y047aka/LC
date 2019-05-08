@@ -84,6 +84,7 @@ qqq =
     in
     Task.attempt GotServerResponse <|
         ([ "IST/IST_2019.json"
+         , "SpaceX/Falcon9_2019.json"
          ]
             |> List.map getResultTask
             |> Task.sequence

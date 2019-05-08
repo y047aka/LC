@@ -6665,7 +6665,7 @@ var author$project$Main$qqq = function () {
 				elm$core$List$map,
 				getResultTask,
 				_List_fromArray(
-					['IST/IST_2019.json']))));
+					['IST/IST_2019.json', 'SpaceX/Falcon9_2019.json']))));
 }();
 var elm$time$Time$Zone = F2(
 	function (a, b) {
