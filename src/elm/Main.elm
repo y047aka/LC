@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, br, button, caption, div, input, label, node, p, section, span, table, tbody, td, text, th, tr)
+import Html exposing (Html, a, br, button, caption, div, h2, h3, h4, input, label, li, node, p, section, span, table, tbody, td, text, th, tr, ul)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
@@ -111,8 +111,10 @@ view model =
         [ View.siteHeader
         , node "main"
             []
-            [ section []
-                [ let
+            [ launchSchedules model
+            , section []
+                [ h2 [] [ text "Archivements" ]
+                , let
                     utc =
                         Time.utc
 
@@ -266,3 +268,31 @@ tableBody sundays races currentPosix =
                             td [ class "past" ] []
                 )
         )
+
+
+launchSchedules : Model -> Html Msg
+launchSchedules model =
+    section []
+        [ h2 [] [ text "Schedules" ]
+        , div []
+            (model.resultChunk
+                |> List.map
+                    (\d ->
+                        div [ class "heatmap" ]
+                            [ h3 [] [ text d.seriesName ]
+                            , ul []
+                                (d.launches
+                                    |> List.map
+                                        (\launch ->
+                                            li []
+                                                [ a []
+                                                    [ h4 [] [ text (launch.posix |> Iso8601.fromTime |> String.left 10) ]
+                                                    , text launch.name
+                                                    ]
+                                                ]
+                                        )
+                                )
+                            ]
+                    )
+            )
+        ]

@@ -7003,54 +7003,50 @@ var author$project$Main$update = F2(
 				}
 		}
 	});
-var author$project$Main$Free = {$: 'Free'};
-var author$project$Main$Past = {$: 'Past'};
-var author$project$Main$Scheduled = function (a) {
-	return {$: 'Scheduled', a: a};
-};
-var elm$core$Basics$ge = _Utils_ge;
-var elm$core$List$filter = F2(
-	function (isGood, list) {
-		return A3(
-			elm$core$List$foldr,
-			F2(
-				function (x, xs) {
-					return isGood(x) ? A2(elm$core$List$cons, x, xs) : xs;
-				}),
-			_List_Nil,
-			list);
+var elm$core$String$left = F2(
+	function (n, string) {
+		return (n < 1) ? '' : A3(elm$core$String$slice, 0, n, string);
 	});
-var elm$core$List$head = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return elm$core$Maybe$Just(x);
-	} else {
-		return elm$core$Maybe$Nothing;
+var elm$json$Json$Decode$map = _Json_map1;
+var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
+	switch (handler.$) {
+		case 'Normal':
+			return 0;
+		case 'MayStopPropagation':
+			return 1;
+		case 'MayPreventDefault':
+			return 2;
+		default:
+			return 3;
 	}
 };
-var elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
+var elm$html$Html$a = _VirtualDom_node('a');
+var elm$html$Html$div = _VirtualDom_node('div');
+var elm$html$Html$h2 = _VirtualDom_node('h2');
+var elm$html$Html$h3 = _VirtualDom_node('h3');
+var elm$html$Html$h4 = _VirtualDom_node('h4');
+var elm$html$Html$li = _VirtualDom_node('li');
+var elm$html$Html$section = _VirtualDom_node('section');
+var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
+var elm$html$Html$ul = _VirtualDom_node('ul');
+var elm$json$Json$Encode$string = _Json_wrap;
+var elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			elm$json$Json$Encode$string(string));
 	});
-var justinmimbs$time_extra$Time$Extra$Day = {$: 'Day'};
-var elm$core$Basics$truncate = _Basics_truncate;
-var elm$time$Time$posixToMillis = function (_n0) {
-	var millis = _n0.a;
-	return millis;
-};
-var justinmimbs$time_extra$Time$Extra$Millisecond = {$: 'Millisecond'};
-var justinmimbs$time_extra$Time$Extra$Month = {$: 'Month'};
-var justinmimbs$time_extra$Time$Extra$Week = {$: 'Week'};
+var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
 var elm$time$Time$flooredDiv = F2(
 	function (numerator, denominator) {
 		return elm$core$Basics$floor(numerator / denominator);
 	});
+var elm$time$Time$posixToMillis = function (_n0) {
+	var millis = _n0.a;
+	return millis;
+};
 var elm$time$Time$toAdjustedMinutesHelp = F3(
 	function (defaultOffset, posixMinutes, eras) {
 		toAdjustedMinutesHelp:
@@ -7087,45 +7083,7 @@ var elm$time$Time$toAdjustedMinutes = F2(
 				60000),
 			eras);
 	});
-var elm$time$Time$toHour = F2(
-	function (zone, time) {
-		return A2(
-			elm$core$Basics$modBy,
-			24,
-			A2(
-				elm$time$Time$flooredDiv,
-				A2(elm$time$Time$toAdjustedMinutes, zone, time),
-				60));
-	});
-var elm$time$Time$toMinute = F2(
-	function (zone, time) {
-		return A2(
-			elm$core$Basics$modBy,
-			60,
-			A2(elm$time$Time$toAdjustedMinutes, zone, time));
-	});
-var elm$time$Time$toSecond = F2(
-	function (_n0, time) {
-		return A2(
-			elm$core$Basics$modBy,
-			60,
-			A2(
-				elm$time$Time$flooredDiv,
-				elm$time$Time$posixToMillis(time),
-				1000));
-	});
-var justinmimbs$date$Date$Day = {$: 'Day'};
-var justinmimbs$date$Date$Friday = {$: 'Friday'};
-var justinmimbs$date$Date$Monday = {$: 'Monday'};
-var justinmimbs$date$Date$Month = {$: 'Month'};
-var justinmimbs$date$Date$Quarter = {$: 'Quarter'};
-var justinmimbs$date$Date$Saturday = {$: 'Saturday'};
-var justinmimbs$date$Date$Sunday = {$: 'Sunday'};
-var justinmimbs$date$Date$Thursday = {$: 'Thursday'};
-var justinmimbs$date$Date$Tuesday = {$: 'Tuesday'};
-var justinmimbs$date$Date$Wednesday = {$: 'Wednesday'};
-var justinmimbs$date$Date$Week = {$: 'Week'};
-var justinmimbs$date$Date$Year = {$: 'Year'};
+var elm$core$Basics$ge = _Utils_ge;
 var elm$time$Time$toCivil = function (minutes) {
 	var rawDay = A2(elm$time$Time$flooredDiv, minutes, 60 * 24) + 719468;
 	var era = (((rawDay >= 0) ? rawDay : (rawDay - 146096)) / 146097) | 0;
@@ -7145,6 +7103,30 @@ var elm$time$Time$toDay = F2(
 	function (zone, time) {
 		return elm$time$Time$toCivil(
 			A2(elm$time$Time$toAdjustedMinutes, zone, time)).day;
+	});
+var elm$time$Time$toHour = F2(
+	function (zone, time) {
+		return A2(
+			elm$core$Basics$modBy,
+			24,
+			A2(
+				elm$time$Time$flooredDiv,
+				A2(elm$time$Time$toAdjustedMinutes, zone, time),
+				60));
+	});
+var elm$time$Time$toMillis = F2(
+	function (_n0, time) {
+		return A2(
+			elm$core$Basics$modBy,
+			1000,
+			elm$time$Time$posixToMillis(time));
+	});
+var elm$time$Time$toMinute = F2(
+	function (zone, time) {
+		return A2(
+			elm$core$Basics$modBy,
+			60,
+			A2(elm$time$Time$toAdjustedMinutes, zone, time));
 	});
 var elm$time$Time$Apr = {$: 'Apr'};
 var elm$time$Time$Aug = {$: 'Aug'};
@@ -7189,11 +7171,231 @@ var elm$time$Time$toMonth = F2(
 				return elm$time$Time$Dec;
 		}
 	});
+var elm$time$Time$toSecond = F2(
+	function (_n0, time) {
+		return A2(
+			elm$core$Basics$modBy,
+			60,
+			A2(
+				elm$time$Time$flooredDiv,
+				elm$time$Time$posixToMillis(time),
+				1000));
+	});
 var elm$time$Time$toYear = F2(
 	function (zone, time) {
 		return elm$time$Time$toCivil(
 			A2(elm$time$Time$toAdjustedMinutes, zone, time)).year;
 	});
+var rtfeldman$elm_iso8601_date_strings$Iso8601$fromMonth = function (month) {
+	switch (month.$) {
+		case 'Jan':
+			return 1;
+		case 'Feb':
+			return 2;
+		case 'Mar':
+			return 3;
+		case 'Apr':
+			return 4;
+		case 'May':
+			return 5;
+		case 'Jun':
+			return 6;
+		case 'Jul':
+			return 7;
+		case 'Aug':
+			return 8;
+		case 'Sep':
+			return 9;
+		case 'Oct':
+			return 10;
+		case 'Nov':
+			return 11;
+		default:
+			return 12;
+	}
+};
+var elm$core$String$cons = _String_cons;
+var elm$core$String$fromChar = function (_char) {
+	return A2(elm$core$String$cons, _char, '');
+};
+var elm$core$Bitwise$and = _Bitwise_and;
+var elm$core$Bitwise$shiftRightBy = _Bitwise_shiftRightBy;
+var elm$core$String$repeatHelp = F3(
+	function (n, chunk, result) {
+		return (n <= 0) ? result : A3(
+			elm$core$String$repeatHelp,
+			n >> 1,
+			_Utils_ap(chunk, chunk),
+			(!(n & 1)) ? result : _Utils_ap(result, chunk));
+	});
+var elm$core$String$repeat = F2(
+	function (n, chunk) {
+		return A3(elm$core$String$repeatHelp, n, chunk, '');
+	});
+var elm$core$String$padLeft = F3(
+	function (n, _char, string) {
+		return _Utils_ap(
+			A2(
+				elm$core$String$repeat,
+				n - elm$core$String$length(string),
+				elm$core$String$fromChar(_char)),
+			string);
+	});
+var rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString = F2(
+	function (digits, time) {
+		return A3(
+			elm$core$String$padLeft,
+			digits,
+			_Utils_chr('0'),
+			elm$core$String$fromInt(time));
+	});
+var rtfeldman$elm_iso8601_date_strings$Iso8601$fromTime = function (time) {
+	return A2(
+		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
+		4,
+		A2(elm$time$Time$toYear, elm$time$Time$utc, time)) + ('-' + (A2(
+		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
+		2,
+		rtfeldman$elm_iso8601_date_strings$Iso8601$fromMonth(
+			A2(elm$time$Time$toMonth, elm$time$Time$utc, time))) + ('-' + (A2(
+		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
+		2,
+		A2(elm$time$Time$toDay, elm$time$Time$utc, time)) + ('T' + (A2(
+		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
+		2,
+		A2(elm$time$Time$toHour, elm$time$Time$utc, time)) + (':' + (A2(
+		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
+		2,
+		A2(elm$time$Time$toMinute, elm$time$Time$utc, time)) + (':' + (A2(
+		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
+		2,
+		A2(elm$time$Time$toSecond, elm$time$Time$utc, time)) + ('.' + (A2(
+		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
+		3,
+		A2(elm$time$Time$toMillis, elm$time$Time$utc, time)) + 'Z'))))))))))));
+};
+var author$project$Main$launchSchedules = function (model) {
+	return A2(
+		elm$html$Html$section,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				elm$html$Html$h2,
+				_List_Nil,
+				_List_fromArray(
+					[
+						elm$html$Html$text('Schedules')
+					])),
+				A2(
+				elm$html$Html$div,
+				_List_Nil,
+				A2(
+					elm$core$List$map,
+					function (d) {
+						return A2(
+							elm$html$Html$div,
+							_List_fromArray(
+								[
+									elm$html$Html$Attributes$class('heatmap')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$h3,
+									_List_Nil,
+									_List_fromArray(
+										[
+											elm$html$Html$text(d.seriesName)
+										])),
+									A2(
+									elm$html$Html$ul,
+									_List_Nil,
+									A2(
+										elm$core$List$map,
+										function (launch) {
+											return A2(
+												elm$html$Html$li,
+												_List_Nil,
+												_List_fromArray(
+													[
+														A2(
+														elm$html$Html$a,
+														_List_Nil,
+														_List_fromArray(
+															[
+																A2(
+																elm$html$Html$h4,
+																_List_Nil,
+																_List_fromArray(
+																	[
+																		elm$html$Html$text(
+																		A2(
+																			elm$core$String$left,
+																			10,
+																			rtfeldman$elm_iso8601_date_strings$Iso8601$fromTime(launch.posix)))
+																	])),
+																elm$html$Html$text(launch.name)
+															]))
+													]));
+										},
+										d.launches))
+								]));
+					},
+					model.resultChunk))
+			]));
+};
+var author$project$Main$Free = {$: 'Free'};
+var author$project$Main$Past = {$: 'Past'};
+var author$project$Main$Scheduled = function (a) {
+	return {$: 'Scheduled', a: a};
+};
+var elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2(elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return elm$core$Maybe$Just(x);
+	} else {
+		return elm$core$Maybe$Nothing;
+	}
+};
+var elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var justinmimbs$time_extra$Time$Extra$Day = {$: 'Day'};
+var elm$core$Basics$truncate = _Basics_truncate;
+var justinmimbs$time_extra$Time$Extra$Millisecond = {$: 'Millisecond'};
+var justinmimbs$time_extra$Time$Extra$Month = {$: 'Month'};
+var justinmimbs$time_extra$Time$Extra$Week = {$: 'Week'};
+var justinmimbs$date$Date$Day = {$: 'Day'};
+var justinmimbs$date$Date$Friday = {$: 'Friday'};
+var justinmimbs$date$Date$Monday = {$: 'Monday'};
+var justinmimbs$date$Date$Month = {$: 'Month'};
+var justinmimbs$date$Date$Quarter = {$: 'Quarter'};
+var justinmimbs$date$Date$Saturday = {$: 'Saturday'};
+var justinmimbs$date$Date$Sunday = {$: 'Sunday'};
+var justinmimbs$date$Date$Thursday = {$: 'Thursday'};
+var justinmimbs$date$Date$Tuesday = {$: 'Tuesday'};
+var justinmimbs$date$Date$Wednesday = {$: 'Wednesday'};
+var justinmimbs$date$Date$Week = {$: 'Week'};
+var justinmimbs$date$Date$Year = {$: 'Year'};
 var elm$core$Basics$clamp = F3(
 	function (low, high, number) {
 		return (_Utils_cmp(number, low) < 0) ? low : ((_Utils_cmp(number, high) > 0) ? high : number);
@@ -7526,13 +7728,6 @@ var justinmimbs$time_extra$Time$Extra$dateToMillis = function (date) {
 	var daysSinceEpoch = justinmimbs$date$Date$toRataDie(date) - 719163;
 	return daysSinceEpoch * 86400000;
 };
-var elm$time$Time$toMillis = F2(
-	function (_n0, time) {
-		return A2(
-			elm$core$Basics$modBy,
-			1000,
-			elm$time$Time$posixToMillis(time));
-	});
 var justinmimbs$time_extra$Time$Extra$timeFromClock = F4(
 	function (hour, minute, second, millisecond) {
 		return (((hour * 3600000) + (minute * 60000)) + (second * 1000)) + millisecond;
@@ -7719,129 +7914,12 @@ var author$project$Main$isRaceWeek = F3(
 				elm$core$List$head(
 					elm$core$List$reverse(racesInThisWeek)))) : (isPast ? author$project$Main$Past : author$project$Main$Free);
 	});
-var elm$core$String$left = F2(
-	function (n, string) {
-		return (n < 1) ? '' : A3(elm$core$String$slice, 0, n, string);
-	});
-var elm$json$Json$Decode$map = _Json_map1;
-var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
-	switch (handler.$) {
-		case 'Normal':
-			return 0;
-		case 'MayStopPropagation':
-			return 1;
-		case 'MayPreventDefault':
-			return 2;
-		default:
-			return 3;
-	}
-};
 var elm$html$Html$br = _VirtualDom_node('br');
-var elm$html$Html$div = _VirtualDom_node('div');
 var elm$html$Html$input = _VirtualDom_node('input');
 var elm$html$Html$label = _VirtualDom_node('label');
 var elm$html$Html$td = _VirtualDom_node('td');
-var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var elm$html$Html$tr = _VirtualDom_node('tr');
-var elm$json$Json$Encode$string = _Json_wrap;
-var elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			elm$json$Json$Encode$string(string));
-	});
-var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
 var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
-var rtfeldman$elm_iso8601_date_strings$Iso8601$fromMonth = function (month) {
-	switch (month.$) {
-		case 'Jan':
-			return 1;
-		case 'Feb':
-			return 2;
-		case 'Mar':
-			return 3;
-		case 'Apr':
-			return 4;
-		case 'May':
-			return 5;
-		case 'Jun':
-			return 6;
-		case 'Jul':
-			return 7;
-		case 'Aug':
-			return 8;
-		case 'Sep':
-			return 9;
-		case 'Oct':
-			return 10;
-		case 'Nov':
-			return 11;
-		default:
-			return 12;
-	}
-};
-var elm$core$String$cons = _String_cons;
-var elm$core$String$fromChar = function (_char) {
-	return A2(elm$core$String$cons, _char, '');
-};
-var elm$core$Bitwise$and = _Bitwise_and;
-var elm$core$Bitwise$shiftRightBy = _Bitwise_shiftRightBy;
-var elm$core$String$repeatHelp = F3(
-	function (n, chunk, result) {
-		return (n <= 0) ? result : A3(
-			elm$core$String$repeatHelp,
-			n >> 1,
-			_Utils_ap(chunk, chunk),
-			(!(n & 1)) ? result : _Utils_ap(result, chunk));
-	});
-var elm$core$String$repeat = F2(
-	function (n, chunk) {
-		return A3(elm$core$String$repeatHelp, n, chunk, '');
-	});
-var elm$core$String$padLeft = F3(
-	function (n, _char, string) {
-		return _Utils_ap(
-			A2(
-				elm$core$String$repeat,
-				n - elm$core$String$length(string),
-				elm$core$String$fromChar(_char)),
-			string);
-	});
-var rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString = F2(
-	function (digits, time) {
-		return A3(
-			elm$core$String$padLeft,
-			digits,
-			_Utils_chr('0'),
-			elm$core$String$fromInt(time));
-	});
-var rtfeldman$elm_iso8601_date_strings$Iso8601$fromTime = function (time) {
-	return A2(
-		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
-		4,
-		A2(elm$time$Time$toYear, elm$time$Time$utc, time)) + ('-' + (A2(
-		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
-		2,
-		rtfeldman$elm_iso8601_date_strings$Iso8601$fromMonth(
-			A2(elm$time$Time$toMonth, elm$time$Time$utc, time))) + ('-' + (A2(
-		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
-		2,
-		A2(elm$time$Time$toDay, elm$time$Time$utc, time)) + ('T' + (A2(
-		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
-		2,
-		A2(elm$time$Time$toHour, elm$time$Time$utc, time)) + (':' + (A2(
-		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
-		2,
-		A2(elm$time$Time$toMinute, elm$time$Time$utc, time)) + (':' + (A2(
-		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
-		2,
-		A2(elm$time$Time$toSecond, elm$time$Time$utc, time)) + ('.' + (A2(
-		rtfeldman$elm_iso8601_date_strings$Iso8601$toPaddedString,
-		3,
-		A2(elm$time$Time$toMillis, elm$time$Time$utc, time)) + 'Z'))))))))))));
-};
 var author$project$Main$tableBody = F3(
 	function (sundays, races, currentPosix) {
 		return A2(
@@ -7951,7 +8029,6 @@ var author$project$Main$tableHeader = function (sundays) {
 			},
 			sundays));
 };
-var elm$html$Html$a = _VirtualDom_node('a');
 var elm$html$Html$footer = _VirtualDom_node('footer');
 var elm$html$Html$p = _VirtualDom_node('p');
 var elm$html$Html$Attributes$href = function (url) {
@@ -8015,7 +8092,6 @@ var elm$virtual_dom$VirtualDom$node = function (tag) {
 		_VirtualDom_noScript(tag));
 };
 var elm$html$Html$node = elm$virtual_dom$VirtualDom$node;
-var elm$html$Html$section = _VirtualDom_node('section');
 var elm$html$Html$table = _VirtualDom_node('table');
 var justinmimbs$time_extra$Time$Extra$Parts = F7(
 	function (year, month, day, hour, minute, second, millisecond) {
@@ -8231,11 +8307,19 @@ var author$project$Main$view = function (model) {
 				_List_Nil,
 				_List_fromArray(
 					[
+						author$project$Main$launchSchedules(model),
 						A2(
 						elm$html$Html$section,
 						_List_Nil,
 						_List_fromArray(
 							[
+								A2(
+								elm$html$Html$h2,
+								_List_Nil,
+								_List_fromArray(
+									[
+										elm$html$Html$text('Archivements')
+									])),
 								function () {
 								var utc = elm$time$Time$utc;
 								var start = A2(
