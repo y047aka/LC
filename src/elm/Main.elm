@@ -250,8 +250,7 @@ tableBody sundays races currentPosix =
                         Scheduled race ->
                             td [ class "raceweek" ]
                                 [ label []
-                                    [ text (Time.toDay Time.utc sundayPosix |> String.fromInt)
-                                    , input [ type_ "checkbox" ] []
+                                    [ input [ type_ "checkbox" ] []
                                     , div []
                                         [ text (race.posix |> Iso8601.fromTime |> String.left 10)
                                         , br [] []

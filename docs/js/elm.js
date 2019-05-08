@@ -7867,9 +7867,6 @@ var author$project$Main$tableBody = F3(
 										_List_Nil,
 										_List_fromArray(
 											[
-												elm$html$Html$text(
-												elm$core$String$fromInt(
-													A2(elm$time$Time$toDay, elm$time$Time$utc, sundayPosix))),
 												A2(
 												elm$html$Html$input,
 												_List_fromArray(
