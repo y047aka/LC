@@ -7918,12 +7918,11 @@ var elm$html$Html$br = _VirtualDom_node('br');
 var elm$html$Html$input = _VirtualDom_node('input');
 var elm$html$Html$label = _VirtualDom_node('label');
 var elm$html$Html$td = _VirtualDom_node('td');
-var elm$html$Html$tr = _VirtualDom_node('tr');
 var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
 var author$project$Main$tableBody = F3(
 	function (sundays, races, currentPosix) {
 		return A2(
-			elm$html$Html$tr,
+			elm$html$Html$li,
 			_List_Nil,
 			A2(
 				elm$core$List$map,
@@ -7981,54 +7980,31 @@ var author$project$Main$tableBody = F3(
 				},
 				sundays));
 	});
-var author$project$Main$omissionMonth = function (month) {
-	switch (month.$) {
-		case 'Jan':
-			return 'Jan';
-		case 'Feb':
-			return 'Feb';
-		case 'Mar':
-			return 'Mar';
-		case 'Apr':
-			return 'Apr';
-		case 'May':
-			return 'May';
-		case 'Jun':
-			return 'Jun';
-		case 'Jul':
-			return 'Jul';
-		case 'Aug':
-			return 'Aug';
-		case 'Sep':
-			return 'Sep';
-		case 'Oct':
-			return 'Oct';
-		case 'Nov':
-			return 'Nov';
-		default:
-			return 'Dec';
-	}
-};
 var elm$html$Html$th = _VirtualDom_node('th');
-var author$project$Main$tableHeader = function (sundays) {
-	return A2(
-		elm$html$Html$tr,
-		_List_Nil,
-		A2(
-			elm$core$List$map,
-			function (posix) {
-				return (A2(elm$time$Time$toDay, elm$time$Time$utc, posix) <= 7) ? A2(
-					elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							elm$html$Html$text(
-							author$project$Main$omissionMonth(
-								A2(elm$time$Time$toMonth, elm$time$Time$utc, posix)))
-						])) : A2(elm$html$Html$th, _List_Nil, _List_Nil);
-			},
-			sundays));
-};
+var elm$html$Html$thead = _VirtualDom_node('thead');
+var elm$html$Html$tr = _VirtualDom_node('tr');
+var author$project$Main$tableHeader = A2(
+	elm$html$Html$thead,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			elm$html$Html$tr,
+			_List_Nil,
+			A2(
+				elm$core$List$map,
+				function (posix) {
+					return A2(
+						elm$html$Html$th,
+						_List_Nil,
+						_List_fromArray(
+							[
+								elm$html$Html$text(posix)
+							]));
+				},
+				_List_fromArray(
+					['2017', '', '', '', '', '', '', '', '', '', '', '', '2018', '', '', '', '', '', '', '', '', '', '', '', '2019', '', '', '', '', '', '', '', '', '', '', ''])))
+		]));
 var elm$html$Html$footer = _VirtualDom_node('footer');
 var elm$html$Html$p = _VirtualDom_node('p');
 var elm$html$Html$Attributes$href = function (url) {
@@ -8086,13 +8062,11 @@ var author$project$View$siteHeader = A2(
 					elm$html$Html$text('Space Launch Calendar 2019')
 				]))
 		]));
-var elm$html$Html$caption = _VirtualDom_node('caption');
 var elm$virtual_dom$VirtualDom$node = function (tag) {
 	return _VirtualDom_node(
 		_VirtualDom_noScript(tag));
 };
 var elm$html$Html$node = elm$virtual_dom$VirtualDom$node;
-var elm$html$Html$table = _VirtualDom_node('table');
 var justinmimbs$time_extra$Time$Extra$Parts = F7(
 	function (year, month, day, hour, minute, second, millisecond) {
 		return {day: day, hour: hour, millisecond: millisecond, minute: minute, month: month, second: second, year: year};
@@ -8325,8 +8299,8 @@ var author$project$Main$view = function (model) {
 								var start = A2(
 									justinmimbs$time_extra$Time$Extra$partsToPosix,
 									utc,
-									A7(justinmimbs$time_extra$Time$Extra$Parts, 2019, elm$time$Time$Jan, 1, 0, 0, 0, 0));
-								var until = A4(justinmimbs$time_extra$Time$Extra$add, justinmimbs$time_extra$Time$Extra$Year, 1, utc, start);
+									A7(justinmimbs$time_extra$Time$Extra$Parts, 2017, elm$time$Time$Jan, 1, 0, 0, 0, 0));
+								var until = A4(justinmimbs$time_extra$Time$Extra$add, justinmimbs$time_extra$Time$Extra$Year, 3, utc, start);
 								var sundays = A5(justinmimbs$time_extra$Time$Extra$range, justinmimbs$time_extra$Time$Extra$Sunday, 1, utc, start, until);
 								return A2(
 									elm$html$Html$div,
@@ -8335,7 +8309,7 @@ var author$project$Main$view = function (model) {
 										elm$core$List$map,
 										function (d) {
 											return A2(
-												elm$html$Html$table,
+												elm$html$Html$ul,
 												_List_fromArray(
 													[
 														elm$html$Html$Attributes$class('heatmap')
@@ -8343,13 +8317,13 @@ var author$project$Main$view = function (model) {
 												_List_fromArray(
 													[
 														A2(
-														elm$html$Html$caption,
+														elm$html$Html$h3,
 														_List_Nil,
 														_List_fromArray(
 															[
 																elm$html$Html$text(d.seriesName)
 															])),
-														author$project$Main$tableHeader(sundays),
+														author$project$Main$tableHeader,
 														A3(author$project$Main$tableBody, sundays, d.launches, model.time)
 													]));
 										},

@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, a, br, button, caption, div, h2, h3, h4, input, label, li, node, p, section, span, table, tbody, td, text, th, tr, ul)
+import Html exposing (Html, a, br, button, div, h2, h3, h4, input, label, li, node, p, section, span, tbody, td, text, th, thead, tr, ul)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
@@ -119,10 +119,10 @@ view model =
                         Time.utc
 
                     start =
-                        Time.Parts 2019 Jan 1 0 0 0 0 |> Time.partsToPosix utc
+                        Time.Parts 2017 Jan 1 0 0 0 0 |> Time.partsToPosix utc
 
                     until =
-                        start |> Time.add Year 1 utc
+                        start |> Time.add Year 3 utc
 
                     sundays =
                         Time.range Sunday 1 utc start until
@@ -131,9 +131,9 @@ view model =
                     (model.resultChunk
                         |> List.map
                             (\d ->
-                                table [ class "heatmap" ]
-                                    [ caption [] [ text d.seriesName ]
-                                    , tableHeader sundays
+                                ul [ class "heatmap" ]
+                                    [ h3 [] [ text d.seriesName ]
+                                    , tableHeader
                                     , tableBody sundays d.launches model.time
                                     ]
                             )
@@ -145,60 +145,14 @@ view model =
     }
 
 
-omissionMonth : Time.Month -> String
-omissionMonth month =
-    case month of
-        Jan ->
-            "Jan"
-
-        Feb ->
-            "Feb"
-
-        Mar ->
-            "Mar"
-
-        Apr ->
-            "Apr"
-
-        May ->
-            "May"
-
-        Jun ->
-            "Jun"
-
-        Jul ->
-            "Jul"
-
-        Aug ->
-            "Aug"
-
-        Sep ->
-            "Sep"
-
-        Oct ->
-            "Oct"
-
-        Nov ->
-            "Nov"
-
-        Dec ->
-            "Dec"
-
-
-tableHeader : List Time.Posix -> Html Msg
-tableHeader sundays =
-    tr []
-        (sundays
-            |> List.map
-                (\posix ->
-                    if Time.toDay Time.utc posix <= 7 then
-                        th []
-                            [ text (Time.toMonth Time.utc posix |> omissionMonth) ]
-
-                    else
-                        th [] []
-                )
-        )
+tableHeader : Html Msg
+tableHeader =
+    thead []
+        [ tr []
+            ([ "2017", "", "", "", "", "", "", "", "", "", "", "", "2018", "", "", "", "", "", "", "", "", "", "", "", "2019", "", "", "", "", "", "", "", "", "", "", "" ]
+                |> List.map (\posix -> th [] [ text posix ])
+            )
+        ]
 
 
 type Weekend
@@ -244,7 +198,7 @@ isRaceWeek sundayPosix races currentPosix =
 
 tableBody : List Time.Posix -> List Launch -> Time.Posix -> Html Msg
 tableBody sundays races currentPosix =
-    tr []
+    li []
         (sundays
             |> List.map
                 (\sundayPosix ->
