@@ -120,10 +120,10 @@ view model =
                         Time.utc
 
                     start =
-                        Time.Parts 2015 Jan 1 0 0 0 0 |> Time.partsToPosix utc
+                        Time.Parts 2014 Jan 1 0 0 0 0 |> Time.partsToPosix utc
 
                     until =
-                        start |> Time.add Year 5 utc
+                        start |> Time.add Year 6 utc
 
                     sundays =
                         Time.range Sunday 1 utc start until
@@ -150,7 +150,7 @@ tableHeader : Html Msg
 tableHeader =
     thead []
         [ tr []
-            ([ "2015", "", "", "", "", "", "", "", "", "", "2016", "", "", "", "", "", "", "", "", "", "2017", "", "", "", "", "", "", "", "", "", "", "2018", "", "", "", "", "", "", "", "", "", "2019", "", "", "", "", "", "", "", "", "", "", "" ]
+            ([ "2014", "", "", "", "", "", "", "", "", "", "2015", "", "", "", "", "", "", "", "", "", "2016", "", "", "", "", "", "", "", "", "", "", "2017", "", "", "", "", "", "", "", "", "", "2018", "", "", "", "", "", "", "", "", "", "", "2019", "", "", "", "", "", "", "", "", "", "" ]
                 |> List.map (\posix -> th [] [ text posix ])
             )
         ]
