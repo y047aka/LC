@@ -6665,7 +6665,7 @@ var author$project$Main$qqq = function () {
 				elm$core$List$map,
 				getResultTask,
 				_List_fromArray(
-					['MHI/H-IIA.json', 'IST/MOMO.json', 'SpaceX/Falcon9.json']))));
+					['MHI/H-IIA.json', 'JAXA/Epsilon.json', 'IST/MOMO.json', 'SpaceX/Falcon9.json']))));
 }();
 var elm$time$Time$Zone = F2(
 	function (a, b) {

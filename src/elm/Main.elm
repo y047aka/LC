@@ -84,6 +84,7 @@ qqq =
     in
     Task.attempt GotServerResponse <|
         ([ "MHI/H-IIA.json"
+         , "JAXA/Epsilon.json"
          , "IST/MOMO.json"
          , "SpaceX/Falcon9.json"
          ]
