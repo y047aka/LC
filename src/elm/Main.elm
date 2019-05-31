@@ -40,6 +40,12 @@ type UserState
     | Failed Http.Error
 
 
+type Weekend
+    = Scheduled Launch
+    | Free
+    | Past
+
+
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( Model Init [] Time.utc (Time.millisToPosix 0)
@@ -114,33 +120,13 @@ view model =
         [ View.siteHeader
         , node "main"
             []
-            [ launchSchedules model
+            [ section []
+                [ h2 [] [ text "Schedules" ]
+                , div [] (model.resultChunk |> List.map viewLaunchSchedule)
+                ]
             , section []
                 [ h2 [] [ text "Archivements" ]
-                , let
-                    utc =
-                        Time.utc
-
-                    start =
-                        Time.Parts 2013 Jan 1 0 0 0 0 |> Time.partsToPosix utc
-
-                    until =
-                        start |> Time.add Year 7 utc
-
-                    sundays =
-                        Time.range Sunday 1 utc start until
-                  in
-                  div []
-                    (model.resultChunk
-                        |> List.map
-                            (\d ->
-                                ul [ class "heatmap" ]
-                                    [ h3 [] [ text d.seriesName ]
-                                    , tableHeader
-                                    , tableBody sundays d.launches model.time
-                                    ]
-                            )
-                    )
+                , div [] (model.resultChunk |> List.map (viewHeatMap model))
                 ]
             ]
         , View.siteFooter
@@ -148,24 +134,85 @@ view model =
     }
 
 
-tableHeader : Html Msg
-tableHeader =
-    thead []
-        [ tr []
-            ([ "2013", "", "", "", "", "", "", "", "", "", "2014", "", "", "", "", "", "", "", "", "", "2015", "", "", "", "", "", "", "", "", "", "", "2016", "", "", "", "", "", "", "", "", "", "2017", "", "", "", "", "", "", "", "", "", "", "2018", "", "", "", "", "", "", "", "", "", "2019", "", "", "", "", "", "", "", "", "", "" ]
-                |> List.map (\posix -> th [] [ text posix ])
+viewHeatMap : Model -> Spacecraft -> Html Msg
+viewHeatMap model d =
+    let
+        utc =
+            Time.utc
+
+        start =
+            Time.Parts 2013 Jan 1 0 0 0 0 |> Time.partsToPosix utc
+
+        until =
+            start |> Time.add Year 7 utc
+
+        sundays =
+            Time.range Sunday 1 utc start until
+    in
+    ul [ class "heatmap" ]
+        [ h3 [] [ text d.seriesName ]
+        , thead []
+            [ tr []
+                ([ "2013", "", "", "", "", "", "", "", "", "", "2014", "", "", "", "", "", "", "", "", "", "2015", "", "", "", "", "", "", "", "", "", "", "2016", "", "", "", "", "", "", "", "", "", "2017", "", "", "", "", "", "", "", "", "", "", "2018", "", "", "", "", "", "", "", "", "", "2019", "", "", "", "", "", "", "", "", "", "" ]
+                    |> List.map (\posix -> th [] [ text posix ])
+                )
+            ]
+        , li []
+            (sundays
+                |> List.map
+                    (\sundayPosix ->
+                        let
+                            weekend =
+                                isLaunchWeek sundayPosix d.launches model.time
+                        in
+                        viewHeatCell weekend
+                    )
             )
         ]
 
 
-type Weekend
-    = Scheduled Launch
-    | Free
-    | Past
+viewHeatCell : Weekend -> Html Msg
+viewHeatCell weekend =
+    case weekend of
+        Scheduled launch ->
+            td [ class "raceweek" ]
+                [ label []
+                    [ input [ type_ "checkbox" ] []
+                    , div []
+                        [ text (launch.posix |> Iso8601.fromTime |> String.left 10)
+                        , br [] []
+                        , text launch.name
+                        ]
+                    ]
+                ]
+
+        Free ->
+            td [] []
+
+        Past ->
+            td [ class "past" ] []
 
 
-isRaceWeek : Time.Posix -> List Launch -> Time.Posix -> Weekend
-isRaceWeek sundayPosix races currentPosix =
+viewLaunchSchedule d =
+    div [ class "heatmap" ]
+        [ h3 [] [ text d.seriesName ]
+        , ul []
+            (d.launches
+                |> List.map
+                    (\launch ->
+                        li []
+                            [ a []
+                                [ h4 [] [ text (launch.posix |> Iso8601.fromTime |> String.left 10) ]
+                                , text launch.name
+                                ]
+                            ]
+                    )
+            )
+        ]
+
+
+isLaunchWeek : Time.Posix -> List Launch -> Time.Posix -> Weekend
+isLaunchWeek sundayPosix races currentPosix =
     let
         racesInThisWeek =
             races
@@ -197,59 +244,3 @@ isRaceWeek sundayPosix races currentPosix =
 
     else
         Free
-
-
-tableBody : List Time.Posix -> List Launch -> Time.Posix -> Html Msg
-tableBody sundays races currentPosix =
-    li []
-        (sundays
-            |> List.map
-                (\sundayPosix ->
-                    case isRaceWeek sundayPosix races currentPosix of
-                        Scheduled race ->
-                            td [ class "raceweek" ]
-                                [ label []
-                                    [ input [ type_ "checkbox" ] []
-                                    , div []
-                                        [ text (race.posix |> Iso8601.fromTime |> String.left 10)
-                                        , br [] []
-                                        , text race.name
-                                        ]
-                                    ]
-                                ]
-
-                        Free ->
-                            td [] []
-
-                        Past ->
-                            td [ class "past" ] []
-                )
-        )
-
-
-launchSchedules : Model -> Html Msg
-launchSchedules model =
-    section []
-        [ h2 [] [ text "Schedules" ]
-        , div []
-            (model.resultChunk
-                |> List.map
-                    (\d ->
-                        div [ class "heatmap" ]
-                            [ h3 [] [ text d.seriesName ]
-                            , ul []
-                                (d.launches
-                                    |> List.map
-                                        (\launch ->
-                                            li []
-                                                [ a []
-                                                    [ h4 [] [ text (launch.posix |> Iso8601.fromTime |> String.left 10) ]
-                                                    , text launch.name
-                                                    ]
-                                                ]
-                                        )
-                                )
-                            ]
-                    )
-            )
-        ]
