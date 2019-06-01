@@ -122,7 +122,7 @@ view model =
             []
             [ section []
                 [ h2 [] [ text "Schedules" ]
-                , div [] (model.resultChunk |> List.map viewLaunchSchedule)
+                , div [] (model.resultChunk |> List.map (viewLaunchSchedule model))
                 ]
             , section []
                 [ h2 [] [ text "Archivements" ]
@@ -193,11 +193,17 @@ viewHeatCell weekend =
             td [ class "past" ] []
 
 
-viewLaunchSchedule d =
+viewLaunchSchedule : Model -> Spacecraft -> Html Msg
+viewLaunchSchedule model d =
     div [ class "heatmap" ]
         [ h3 [] [ text d.seriesName ]
-        , ul []
+        , let
+            isFuture launch =
+                Time.diff Day Time.utc model.time launch.posix > 0
+          in
+          ul []
             (d.launches
+                |> List.filter isFuture
                 |> List.map
                     (\launch ->
                         li []

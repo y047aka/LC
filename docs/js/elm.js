@@ -8161,56 +8161,62 @@ var author$project$Main$viewHeatMap = F2(
 	});
 var elm$html$Html$a = _VirtualDom_node('a');
 var elm$html$Html$h4 = _VirtualDom_node('h4');
-var author$project$Main$viewLaunchSchedule = function (d) {
-	return A2(
-		elm$html$Html$div,
-		_List_fromArray(
-			[
-				elm$html$Html$Attributes$class('heatmap')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				elm$html$Html$h3,
-				_List_Nil,
-				_List_fromArray(
-					[
-						elm$html$Html$text(d.seriesName)
-					])),
-				A2(
-				elm$html$Html$ul,
-				_List_Nil,
-				A2(
-					elm$core$List$map,
-					function (launch) {
-						return A2(
-							elm$html$Html$li,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									elm$html$Html$a,
+var author$project$Main$viewLaunchSchedule = F2(
+	function (model, d) {
+		return A2(
+			elm$html$Html$div,
+			_List_fromArray(
+				[
+					elm$html$Html$Attributes$class('heatmap')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$h3,
+					_List_Nil,
+					_List_fromArray(
+						[
+							elm$html$Html$text(d.seriesName)
+						])),
+					function () {
+					var isFuture = function (launch) {
+						return A4(justinmimbs$time_extra$Time$Extra$diff, justinmimbs$time_extra$Time$Extra$Day, elm$time$Time$utc, model.time, launch.posix) > 0;
+					};
+					return A2(
+						elm$html$Html$ul,
+						_List_Nil,
+						A2(
+							elm$core$List$map,
+							function (launch) {
+								return A2(
+									elm$html$Html$li,
 									_List_Nil,
 									_List_fromArray(
 										[
 											A2(
-											elm$html$Html$h4,
+											elm$html$Html$a,
 											_List_Nil,
 											_List_fromArray(
 												[
-													elm$html$Html$text(
 													A2(
-														elm$core$String$left,
-														10,
-														rtfeldman$elm_iso8601_date_strings$Iso8601$fromTime(launch.posix)))
-												])),
-											elm$html$Html$text(launch.name)
-										]))
-								]));
-					},
-					d.launches))
-			]));
-};
+													elm$html$Html$h4,
+													_List_Nil,
+													_List_fromArray(
+														[
+															elm$html$Html$text(
+															A2(
+																elm$core$String$left,
+																10,
+																rtfeldman$elm_iso8601_date_strings$Iso8601$fromTime(launch.posix)))
+														])),
+													elm$html$Html$text(launch.name)
+												]))
+										]));
+							},
+							A2(elm$core$List$filter, isFuture, d.launches)));
+				}()
+				]));
+	});
 var elm$html$Html$footer = _VirtualDom_node('footer');
 var elm$html$Html$p = _VirtualDom_node('p');
 var elm$html$Html$Attributes$href = function (url) {
@@ -8301,7 +8307,10 @@ var author$project$Main$view = function (model) {
 								A2(
 								elm$html$Html$div,
 								_List_Nil,
-								A2(elm$core$List$map, author$project$Main$viewLaunchSchedule, model.resultChunk))
+								A2(
+									elm$core$List$map,
+									author$project$Main$viewLaunchSchedule(model),
+									model.resultChunk))
 							])),
 						A2(
 						elm$html$Html$section,
