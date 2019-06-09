@@ -51,7 +51,7 @@ getTestServerResponseWithPageTask category =
     Http.task
         { method = "GET"
         , headers = []
-        , url = "https://sorabatake.github.io/SpaceBusinessData/schedules/" ++ category
+        , url = "https://soranome.github.io/SpaceBusinessData/schedules/" ++ category
         , body = Http.emptyBody
         , resolver = jsonResolver raceCategoryDecoder
         , timeout = Nothing

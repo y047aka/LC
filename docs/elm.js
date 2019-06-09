@@ -6554,7 +6554,7 @@ var author$project$Launches$getTestServerResponseWithPageTask = function (catego
 			method: 'GET',
 			resolver: author$project$Launches$jsonResolver(author$project$Launches$raceCategoryDecoder),
 			timeout: elm$core$Maybe$Nothing,
-			url: 'https://sorabatake.github.io/SpaceBusinessData/schedules/' + category
+			url: 'https://soranome.github.io/SpaceBusinessData/schedules/' + category
 		});
 };
 var author$project$Main$GotServerResponse = function (a) {
@@ -6665,7 +6665,7 @@ var author$project$Main$qqq = function () {
 				elm$core$List$map,
 				getResultTask,
 				_List_fromArray(
-					['MHI/H-IIA.json', 'MHI/H-IIB.json', 'JAXA/Epsilon.json', 'IST/MOMO.json', 'SpaceX/Falcon9.json']))));
+					['launchVehicles/H-IIA.json', 'launchVehicles/H-IIB.json', 'launchVehicles/Epsilon.json', 'launchVehicles/MOMO.json', 'launchVehicles/Falcon9.json']))));
 }();
 var elm$time$Time$Zone = F2(
 	function (a, b) {
